@@ -1,0 +1,16 @@
+type ClaimRequest = record { to : principal };
+type ClaimResponse = variant {
+  ok : vec record { principal; nat32 };
+  err : VoteError;
+};
+type VoteError = variant {
+  VoteFailedError : text;
+  ClaimError : text;
+  Other : text;
+};
+type VoteRequest = record { voter_id : principal; work_id : nat32 };
+type VoteResponse = variant { ok : vec principal; err : VoteError };
+service : {
+  shiku_claim_votes : (ClaimRequest) -> (ClaimResponse);
+  shiku_vote : (VoteRequest) -> (VoteResponse);
+}
